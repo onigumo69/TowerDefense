@@ -23,8 +23,6 @@ public class ResourceManager : MonoBehaviour
         {
             _resourceAmountDict[resourceType] = 0;
         }
-
-        Test();
     }
 
     void Update()
@@ -40,8 +38,6 @@ public class ResourceManager : MonoBehaviour
             ResourceTypeListSO resourceTypeList = Resources.Load<ResourceTypeListSO>(typeof(ResourceTypeListSO).Name);
             AddResource(resourceTypeList.List[1], 2);
         }
-
-        Test();
     }
 
     public void AddResource(ResourceTypeSO resourceType, int amount)
@@ -56,7 +52,7 @@ public class ResourceManager : MonoBehaviour
         return _resourceAmountDict[resourceType];
     }
 
-    void Test()
+    void TestLog()
     {
         foreach (ResourceTypeSO k in _resourceAmountDict.Keys)
         {
