@@ -52,11 +52,29 @@ public class ResourceManager : MonoBehaviour
         return _resourceAmountDict[resourceType];
     }
 
-    void TestLog()
+    public bool CanAfford(ResourceAmount[] resourceAmountArray)
     {
-        foreach (ResourceTypeSO k in _resourceAmountDict.Keys)
+        foreach(ResourceAmount resourceAmount in resourceAmountArray)
         {
-            Debug.Log("resourceType " + k.NameString + " Amount: " + _resourceAmountDict[k]);
+            if(GetResourceAmount(resourceAmount.ResourceType) >= resourceAmount.Amount)
+            {
+                // can afford
+            }
+            else
+            { 
+                // cannot afford
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void SpendResource(ResourceAmount[] resourceAmountArray)
+    {
+        foreach(ResourceAmount resourceAmount in resourceAmountArray)
+        {
+            _resourceAmountDict[resourceAmount.ResourceType] -= resourceAmount.Amount;
         }
     }
 }

@@ -6,10 +6,12 @@ using UnityEngine;
 public class BuildingGhost : MonoBehaviour
 {
     GameObject _spriteGameObject;
+    ResourceNearbyOverlay _resourceNearbyOverlay;
 
     void Awake()
     {
         _spriteGameObject = transform.Find("sprite").gameObject;
+        _resourceNearbyOverlay = transform.Find("ResourceNearbyOverlayPrefab").GetComponent<ResourceNearbyOverlay>();
 
         Hide();
     }
@@ -29,10 +31,12 @@ public class BuildingGhost : MonoBehaviour
         if (e.ActiveBuildingType == null)
         {
             Hide();
+            _resourceNearbyOverlay.Hide();
         }
         else
         {
             Show(e.ActiveBuildingType.Sprite);
+            _resourceNearbyOverlay.Show(e.ActiveBuildingType.ResourceGeneratorData);
         }
     }
 

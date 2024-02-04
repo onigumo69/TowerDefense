@@ -28,9 +28,25 @@ public class BuildingManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            if (_activeBuildingType != null && CanSpawnBuilding(_activeBuildingType, UtilClass.GetMouseWorldPosition()))
+            if (_activeBuildingType != null)
             {
-                Instantiate(_activeBuildingType.Prefab, UtilClass.GetMouseWorldPosition(), Quaternion.identity);
+                if(CanSpawnBuilding(_activeBuildingType, UtilClass.GetMouseWorldPosition(), out string errorMessage))
+                {
+                    if (ResourceManager.Instance.CanAfford(_activeBuildingType.ConstructionResourceCostArray))
+                    {
+                        ResourceManager.Instance.SpendResource(_activeBuildingType.ConstructionResourceCostArray);
+                        Instantiate(_activeBuildingType.Prefab, UtilClass.GetMouseWorldPosition(), Quaternion.identity);
+                    }
+                    else
+                    {
+                        TooltipUI.Instance.Show("Cannot afford " + _activeBuildingType.GetConstructionResourceCostString(),
+                            new TooltipUI.TooltipTimer { Timer = 2f });
+                    }
+                }
+                else
+                {
+                    TooltipUI.Instance.Show(errorMessage, new TooltipUI.TooltipTimer { Timer = 2f });
+                }
             }
         }
     }
@@ -46,7 +62,7 @@ public class BuildingManager : MonoBehaviour
         return _activeBuildingType;
     }
 
-    bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position)
+    bool CanSpawnBuilding(BuildingTypeSO buildingType, Vector3 position, out string errorMessage)
     {
         BoxCollider2D boxCollider2D = buildingType.Prefab.GetComponent<BoxCollider2D>();
 
@@ -55,6 +71,7 @@ public class BuildingManager : MonoBehaviour
         bool isAreaClear = collider2DArray.Length == 0;
         if (!isAreaClear)
         {
+            errorMessage = "Area is not clear!";
             return false;
         }
 
@@ -67,6 +84,7 @@ public class BuildingManager : MonoBehaviour
             {
                 if (buildingTypeHolder.BuildingType == buildingType)
                 {
+                    errorMessage = "Too close to another building of the same type!";
                     // already existing a type of this building inside the construction radius
                     return false;
                 }
@@ -81,10 +99,12 @@ public class BuildingManager : MonoBehaviour
             BuildingTypeHolder buildingTypeHolder = collider2D.GetComponent<BuildingTypeHolder>();
             if (buildingTypeHolder != null)
             {
+                errorMessage = "";
                 return true;
             }
         }
 
+        errorMessage = "Too far from any other buildings!";
         return false;
     }
 }
