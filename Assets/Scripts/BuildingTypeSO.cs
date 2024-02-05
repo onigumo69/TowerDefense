@@ -7,6 +7,7 @@ public class BuildingTypeSO : ScriptableObject
 {
     public string NameString;
     public GameObject Prefab;
+    public bool HasResourceGeneratorData;
     public ResourceGeneratorData ResourceGeneratorData;
 
     public Sprite Sprite;
