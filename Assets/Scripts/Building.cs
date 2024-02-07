@@ -6,8 +6,16 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     BuildingTypeSO _buildingType;
-
     HealthSystem _healthSystem;
+
+    Transform _buildingDemolishButton;
+
+    private void Awake()
+    {
+        _buildingDemolishButton = transform.Find("BuildingDemolishButtonPrefab");
+
+        HideBuildingDemolishButton();
+    }
 
     private void Start()
     {
@@ -27,5 +35,31 @@ public class Building : MonoBehaviour
     void HealthSystem_OnDied(object sender, EventArgs e)
     {
         Destroy(gameObject);
+    }
+
+    private void OnMouseEnter()
+    {
+        ShowBuildingDemolishButton();
+    }
+
+    private void OnMouseExit()
+    {
+        HideBuildingDemolishButton();
+    }
+
+    void ShowBuildingDemolishButton()
+    {
+        if(_buildingDemolishButton != null)
+        {
+            _buildingDemolishButton.gameObject.SetActive(true);
+        }
+    }
+
+    void HideBuildingDemolishButton()
+    {
+        if (_buildingDemolishButton != null)
+        {
+            _buildingDemolishButton.gameObject.SetActive(false);
+        }
     }
 }
