@@ -28,8 +28,26 @@ public class CameraHandler : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
-        float moveSpeed = 30f;
+        float edgeScrollingSize = 30f;
+        if(Input.mousePosition.x > Screen.width - edgeScrollingSize)
+        {
+            x = 1f;
+        }
+        if(Input.mousePosition.x < edgeScrollingSize)
+        {
+            x = -1f;
+        }
+        if(Input.mousePosition.y > Screen.height - edgeScrollingSize)
+        {
+            y = 1f;
+        }
+        if(Input.mousePosition.y < edgeScrollingSize)
+        {
+            y = -1f;
+        }
+
         Vector3 moveDir = new Vector3(x, y).normalized;
+        float moveSpeed = 30f;
         transform.position += moveDir * moveSpeed * Time.deltaTime;
     }
 
