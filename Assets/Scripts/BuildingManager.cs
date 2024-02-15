@@ -26,6 +26,18 @@ public class BuildingManager : MonoBehaviour
         _buildingTypeList = Resources.Load<BuildingTypeListSO>(typeof(BuildingTypeListSO).Name);
     }
 
+    private void Start()
+    {
+        HQBuilding.GetComponent<HealthSystem>().OnDied += HQ_OnDied;
+    }
+
+    private void HQ_OnDied(object sender, EventArgs e)
+    {
+        GameOverUI.Instance.Show();
+
+        SoundManager.Instance.PlaySound(SoundManager.Sound.GameOver);
+    }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
@@ -39,6 +51,8 @@ public class BuildingManager : MonoBehaviour
                         ResourceManager.Instance.SpendResource(_activeBuildingType.ConstructionResourceCostArray);
                         //Instantiate(_activeBuildingType.Prefab, UtilClass.GetMouseWorldPosition(), Quaternion.identity);
                         BuildingConstruction.Create(UtilClass.GetMouseWorldPosition(), _activeBuildingType);
+
+                        SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingPlaced);
                     }
                     else
                     {

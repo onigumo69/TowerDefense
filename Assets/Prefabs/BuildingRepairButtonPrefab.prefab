@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7683038712587015583}
   - component: {fileID: 7683038712587015582}
   - component: {fileID: 7683038712587015581}
-  - component: {fileID: -6799856239124282004}
+  - component: {fileID: -2658037166833997969}
   m_Layer: 5
-  m_Name: BuildingDemolishButtonPrefab
+  m_Name: BuildingRepairButtonPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7683038712587015581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &-6799856239124282004
+--- !u!114 &-2658037166833997969
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,10 +111,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7683038712587015580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d98a7689ee2898d459f1c5dd61ca4713, type: 3}
+  m_Script: {fileID: 11500000, guid: d16694b6d870eff448093b3fac20e3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: {fileID: 0}
+  HealthSystem: {fileID: 0}
+  GoldResourceType: {fileID: 11400000, guid: 0baf3ce6c2fadfe46a60b78391ddc3a2, type: 2}
 --- !u!1 &7683038712719176905
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.78431374, g: 0.20392157, b: 0.20392157, a: 1}
+  m_Color: {r: 0.38993734, g: 0.78431374, b: 0.20392157, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -319,7 +320,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 911be4113ef67354dacd8b3542ff497a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d921b7cb87c53d94cb0ec38875bfb4ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

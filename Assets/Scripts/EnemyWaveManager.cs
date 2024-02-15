@@ -2,10 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class EnemyWaveManager : MonoBehaviour
 {
     public event EventHandler OnWaveNumberChanged;
+
+    public static EnemyWaveManager Instance { get; private set; }
 
     enum State
     {
@@ -22,6 +25,11 @@ public class EnemyWaveManager : MonoBehaviour
     float _nextEnemySpawnTimer;
     int _remainEnemySpawnAmount;
     Vector3 _spawnPosition;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {

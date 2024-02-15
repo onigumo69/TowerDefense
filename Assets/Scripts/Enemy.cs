@@ -25,17 +25,28 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _targetTransform = BuildingManager.Instance.GetHQBuilding().transform;
+        if (BuildingManager.Instance.GetHQBuilding() != null)
+        {
+            _targetTransform = BuildingManager.Instance.GetHQBuilding().transform;
+        }
 
         _lookForTargetTimer = UnityEngine.Random.Range(0f, _lookForTargetTimerMax);
 
         _healthSystem = GetComponent<HealthSystem>();
+        _healthSystem.OnDamaged += HealthSystem_OnDamaged;
         _healthSystem.OnDied += HealthSystem_OnDied;
+    }
+
+    private void HealthSystem_OnDamaged(object sender, EventArgs e)
+    {
+        SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyHit);
     }
 
     private void HealthSystem_OnDied(object sender, EventArgs e)
     {
         Destroy(gameObject);
+
+        SoundManager.Instance.PlaySound(SoundManager.Sound.EnemyDie);
     }
 
     private void Update()
@@ -108,7 +119,10 @@ public class Enemy : MonoBehaviour
 
         if(_targetTransform == null)
         {
-            _targetTransform = BuildingManager.Instance.GetHQBuilding().transform;
+            if(BuildingManager.Instance.GetHQBuilding() != null)
+            {
+                _targetTransform = BuildingManager.Instance.GetHQBuilding().transform;
+            }
         }
     }
 }

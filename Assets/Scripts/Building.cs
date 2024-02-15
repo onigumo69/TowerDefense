@@ -9,12 +9,15 @@ public class Building : MonoBehaviour
     HealthSystem _healthSystem;
 
     Transform _buildingDemolishButton;
+    Transform _buildingRepairButton;
 
     private void Awake()
     {
         _buildingDemolishButton = transform.Find("BuildingDemolishButtonPrefab");
+        _buildingRepairButton = transform.Find("BuildingRepairButtonPrefab");
 
         HideBuildingDemolishButton();
+        HideBuildingRepairButton();
     }
 
     private void Start()
@@ -24,7 +27,24 @@ public class Building : MonoBehaviour
         _healthSystem = GetComponent<HealthSystem>();
         _healthSystem.SetHealthAmountMax(_buildingType.HealthAmountMax, true);
 
+        _healthSystem.OnDamaged += HealthSystem_OnDamaged;
+        _healthSystem.OnHealed += HealthSystem_OnHealed;
         _healthSystem.OnDied += HealthSystem_OnDied;
+    }
+
+    private void HealthSystem_OnDamaged(object sender, EventArgs e)
+    {
+        ShowBuildingRepairButton();
+
+        SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDamaged);
+    }
+
+    private void HealthSystem_OnHealed(object sender, EventArgs e)
+    {
+        if(_healthSystem.IsFullHealth())
+        {
+            HideBuildingRepairButton();
+        }
     }
 
     private void Update()
@@ -35,6 +55,8 @@ public class Building : MonoBehaviour
     void HealthSystem_OnDied(object sender, EventArgs e)
     {
         Destroy(gameObject);
+
+        SoundManager.Instance.PlaySound(SoundManager.Sound.BuildingDestroyed);
     }
 
     private void OnMouseEnter()
@@ -60,6 +82,22 @@ public class Building : MonoBehaviour
         if (_buildingDemolishButton != null)
         {
             _buildingDemolishButton.gameObject.SetActive(false);
+        }
+    }
+
+    void ShowBuildingRepairButton()
+    {
+        if (_buildingRepairButton != null)
+        {
+            _buildingRepairButton.gameObject.SetActive(true);
+        }
+    }
+
+    void HideBuildingRepairButton()
+    {
+        if (_buildingRepairButton != null)
+        {
+            _buildingRepairButton.gameObject.SetActive(false);
         }
     }
 }
